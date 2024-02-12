@@ -13,7 +13,7 @@ public class MainDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<Book> Books { get; set; }
 
 
-    public DbSet<PointCategory> PointCategoties { get; set; }
+    public DbSet<PointCategory> PointCategories { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<ImagePath> ImagePathes { get; set; }
     public DbSet<Point> Points { get; set; }
