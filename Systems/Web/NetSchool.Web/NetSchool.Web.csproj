@@ -8,9 +8,10 @@
 
     <ItemGroup>
         <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
+        <PackageReference Include="leaflet" Version="0.7.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
         <PackageReference Include="MudBlazor" Version="6.11.2" />
     </ItemGroup>
 
