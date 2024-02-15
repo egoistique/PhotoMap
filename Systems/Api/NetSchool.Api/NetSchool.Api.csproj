@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.Authors\NetSchool.Services.Authors.csproj" />
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.Books\NetSchool.Services.Books.csproj" />
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.Logger\NetSchool.Services.Logger.csproj" />
+    <ProjectReference Include="..\..\..\Services\NetSchool.Services.PointCategories\NetSchool.Services.PointCategories.csproj" />
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.Points\NetSchool.Services.Points.csproj" />
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.RabbitMq\NetSchool.Services.RabbitMq.csproj" />
     <ProjectReference Include="..\..\..\Services\NetSchool.Services.Settings\NetSchool.Services.Settings.csproj" />
