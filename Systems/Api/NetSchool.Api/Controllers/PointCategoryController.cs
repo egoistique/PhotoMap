@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetSchool.Common.Security;
 using NetSchool.Services.PointCategories;
 using NetSchool.Services.Logger;
-using NetSchool.Services.Authors;
+
 
 [ApiController]
 [Authorize]
@@ -29,6 +29,15 @@ public class PointCategoryController : Controller
     public async Task<IEnumerable<PointCategoryModel>> GetAll()
     {
         var result = await pointCategoryService.GetAll();
+
+        return result;
+    }
+
+    [HttpPost("")]
+    [Authorize(AppScopes.BooksWrite)]
+    public async Task<PointCategoryModel> Create(CreateModel request)
+    {
+        var result = await pointCategoryService.Create(request);
 
         return result;
     }

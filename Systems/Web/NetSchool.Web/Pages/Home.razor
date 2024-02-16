@@ -3,6 +3,11 @@
 @using Microsoft.AspNetCore.Authorization
 @using NetSchool.Web.Pages.Points.Models
 @using NetSchool.Web.Pages.Points.Services
+@using NetSchool.Web.Pages.Points
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IPointService PointService
+
 @layout MainLayout
 @attribute [Authorize]
 
@@ -44,19 +49,39 @@
     {
         if (addPointMode)
         {
-            var newPoint = new PointModel
-                {
-                    Latitude = lat,
-                    Longitude = lng,
-                    Title = "New User Point",
-                    Description = "This is a point added by the user."
-                };
+            var parameters = new DialogParameters { };
+            parameters.Add("Latitude", lat);
+            parameters.Add("Longitude", lng);
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-            // Добавляем маркер на карту
-            await JSRuntime.InvokeVoidAsync("addMarker", newPoint);
+            var dialog = await DialogService.ShowAsync<PointDialog>("Add point", parameters, options);
+            var result = await dialog.Result;
 
-            // Добавляем новую точку в список точек
-            ((List<PointModel>)points).Add(newPoint);
+            if (result.Canceled)
+                return;
+
+            try
+            {
+                var pointModel = ((PointDialog)dialog.Dialog).Model;
+                var createModel = new CreateModel()
+                    {
+                        PointCategoryId = pointModel.PointCategoryId,
+                        Description = pointModel.Description,
+                        Title = pointModel.Title,
+                        Latitude = pointModel.Latitude,
+                        Longitude = pointModel.Longitude
+                    };
+                await PointService.AddPoint(createModel);
+
+                await JSRuntime.InvokeVoidAsync("addMarker", pointModel);
+
+                ((List<PointModel>)points).Add(pointModel);
+               
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }         
         }
     }
 

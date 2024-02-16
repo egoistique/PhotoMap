@@ -61,6 +61,9 @@
 
     [Parameter] public PointModel Model { get; set; } = new();
 
+    [Parameter] public double Latitude { get; set; }
+    [Parameter] public double Longitude { get; set; }
+
     private MudForm form = default!;
 
     MudSelect<Guid> selectPointCategory = default!;
@@ -70,6 +73,13 @@
     {
         var pointCategories = await PointService.GetPointCategoryList();
         PointCategories.AddRange(pointCategories);
+
+        if (Latitude != 0 && Longitude != 0)
+        {
+            Model.Latitude = Latitude;
+            Model.Longitude = Longitude;
+        }
+
 
         if (PointId != null)
         {
