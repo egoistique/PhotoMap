@@ -101,3 +101,14 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+.green-button {
+    background-color: green;
+    color: white;
+}
+
+.blue-button {
+    background-color: blue;
+    color: white;
+}
+

@@ -1,6 +1,8 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
 @using Microsoft.AspNetCore.Authorization
+@using NetSchool.Web.Pages.Points.Models
+@using NetSchool.Web.Pages.Points.Services
 @layout MainLayout
 @attribute [Authorize]
 
@@ -8,23 +10,88 @@
 
 <h1>Hello, world!!!</h1>
 
+<div>
+    <button class="btn btn-primary" @onclick="ToggleAddPointMode">Toggle Add Point Mode</button>
+</div>
+
 <div id="map" style="height: 400px;"></div>
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync(@"eval", @"
-                window.initMap = function () {
-                    var map = L.map('map').setView([51.505, -0.09], 13);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href=""https://www.openstreetmap.org/copyright"">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-                }
-            ");
+    private IEnumerable<PointModel> points = new List<PointModel>();
+    private bool addPointMode = false; // Флаг для отслеживания режима добавления точек
 
-            await JSRuntime.InvokeVoidAsync("initMap");
+    [Inject]
+    private IPointService pointService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Получаем точки из сервиса
+            points = await pointService.GetPoints();
+            await JSRuntime.InvokeVoidAsync("initMap", DotNetObjectReference.Create(this), points);
+        }
+        catch (Exception ex)
+        {
+            // Обработка ошибок
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
+
+    // Метод для обработки клика на карте
+    [JSInvokable]
+    public async Task HandleMapClick(double lat, double lng)
+    {
+        if (addPointMode)
+        {
+            var newPoint = new PointModel
+                {
+                    Latitude = lat,
+                    Longitude = lng,
+                    Title = "New User Point",
+                    Description = "This is a point added by the user."
+                };
+
+            // Добавляем маркер на карту
+            await JSRuntime.InvokeVoidAsync("addMarker", newPoint);
+
+            // Добавляем новую точку в список точек
+            ((List<PointModel>)points).Add(newPoint);
+        }
+    }
+
+    // Метод для включения или выключения режима добавления точек по клику
+    private void ToggleAddPointMode()
+    {
+        addPointMode = !addPointMode;
+    }
 }
+
+<script>
+    // Скрипт Leaflet для инициализации карты и добавления маркеров
+    var map;
+
+    window.initMap = function (dotnetHelper, points) {
+        map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Добавляем маркеры для каждой точки из списка
+        points.forEach(function (point) {
+            L.marker([point.latitude, point.longitude]).addTo(map)
+                .bindPopup('<b>' + point.title + '</b><br>' + point.description);
+        });
+
+        // Добавляем обработчик клика на карту
+        map.on('click', function (e) {
+            dotnetHelper.invokeMethodAsync('HandleMapClick', e.latlng.lat, e.latlng.lng);
+        });
+    }
+
+    // Функция для добавления нового маркера на карту
+    window.addMarker = function (point) {
+        L.marker([point.latitude, point.longitude]).addTo(map)
+            .bindPopup('<b>' + point.title + '</b><br>' + point.description);
+    }
+</script>
