@@ -31,14 +31,20 @@
                                   @bind-Value="Model.Description">
                     </MudTextField>
                 </MudItem>
+
                 <MudItem xs="12">
+                    <MudFileInput Label="Upload Image" Accept="image/*" 
+                                   />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
                     <MudTextField Label="Latitude"
                                   Lines="5"
                                   For="@(() => Model.Latitude)"
                                   @bind-Value="Model.Latitude">
                     </MudTextField>
                 </MudItem>
-                <MudItem xs="12">
+                <MudItem xs="12" sm="6">
                     <MudTextField Label="Longitude"
                                   Lines="5"
                                   For="@(() => Model.Longitude)"

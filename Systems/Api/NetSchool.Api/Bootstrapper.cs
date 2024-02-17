@@ -7,6 +7,7 @@ using NetSchool.Api.Settings;
 using NetSchool.Services.Books;
 using NetSchool.Services.Points;
 using NetSchool.Services.PointCategories;
+using NetSchool.Services.Feedbacks;
 using NetSchool.Services.Authors;
 using NetSchool.Services.RabbitMq;
 using NetSchool.Services.Actions;
@@ -27,6 +28,7 @@ public static class Bootstrapper
             .AddBookService()
             .AddPointService()
             .AddPointCategoryService()
+            .AddFeedbackService()
             .AddAuthorService()
             .AddRabbitMq()
             .AddActions()
