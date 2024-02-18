@@ -70,7 +70,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSchool.Services.Points",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSchool.Services.PointCategories", "Services\NetSchool.Services.PointCategories\NetSchool.Services.PointCategories.csproj", "{B1E05364-DE6D-4057-9FD3-C4A2B0B48129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSchool.Services.Feedbacks", "NetSchool.Services.Feedbacks\NetSchool.Services.Feedbacks.csproj", "{B19E4612-178D-43E0-A324-67CFD894009D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetSchool.Services.Feedbacks", "NetSchool.Services.Feedbacks\NetSchool.Services.Feedbacks.csproj", "{B19E4612-178D-43E0-A324-67CFD894009D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

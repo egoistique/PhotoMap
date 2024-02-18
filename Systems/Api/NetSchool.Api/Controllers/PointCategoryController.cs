@@ -9,7 +9,7 @@ using NetSchool.Services.Logger;
 
 
 [ApiController]
-[Authorize]
+
 [ApiVersion("1.0")]
 [ApiExplorerSettings(GroupName = "Product")]
 [Route("v{version:apiVersion}/[controller]")]
@@ -25,7 +25,7 @@ public class PointCategoryController : Controller
     }
 
     [HttpGet("")]
-    [Authorize(AppScopes.BooksRead)]
+    [AllowAnonymous]
     public async Task<IEnumerable<PointCategoryModel>> GetAll()
     {
         var result = await pointCategoryService.GetAll();

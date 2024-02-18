@@ -8,7 +8,7 @@ using NetSchool.Services.Points;
 using NetSchool.Services.Logger;
 
 [ApiController]
-[Authorize]
+
 [ApiVersion("1.0")]
 [ApiExplorerSettings(GroupName = "Product")]
 [Route("v{version:apiVersion}/[controller]")]
@@ -24,7 +24,7 @@ public class PointController : ControllerBase
     }
 
     [HttpGet("")]
-    [Authorize(AppScopes.BooksRead)]
+    [AllowAnonymous]
     public async Task<IEnumerable<PointModel>> GetAll()
     {
         var result = await pointService.GetAll();
@@ -33,7 +33,7 @@ public class PointController : ControllerBase
     }
 
     [HttpGet("{id:Guid}")]
-    [Authorize(AppScopes.BooksRead)]
+    [AllowAnonymous]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var result = await pointService.GetById(id);
